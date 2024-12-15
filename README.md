@@ -1,1 +1,1 @@
-# Strep-Throat-Detection-Backend
+# Strep Throat Detection
