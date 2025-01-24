@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-=*xf9g7cc#xt7fh*#+pubs-c+_t(^^_$4o#(77ntl_+^4mzkb8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.0.5', '0e49-2a06-c701-74f0-4900-1b2-cb1b-6917-1f1f.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.0.5', 'a337-2a06-c701-74df-e00-5495-e6f9-b7d5-a356.ngrok-free.app']
 
 
 # Application definition
@@ -28,7 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'diagnosis',
 ]
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

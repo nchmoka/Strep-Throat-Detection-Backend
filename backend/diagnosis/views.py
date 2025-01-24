@@ -34,14 +34,18 @@ def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+
+        print(f"Debug: Received username={username}, password={password}")  # Debugging
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return JsonResponse({"message": "Login successful"}, status=200)
         else:
+            print("Debug: Authentication failed")  # Debugging
             return JsonResponse({"error": "Invalid credentials"}, status=400)
-    return HttpResponseBadRequest("Invalid request method")
 
+    return JsonResponse({"error": "Invalid request method"}, status=400)
 def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
