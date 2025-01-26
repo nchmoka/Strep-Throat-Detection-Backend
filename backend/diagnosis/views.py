@@ -8,9 +8,8 @@ from django.conf import settings
 from PIL import Image
 from tensorflow.keras.models import load_model
 from django.views.decorators.csrf import csrf_exempt
-from .models import DiagnosisResult, EducationalResource
+from .models import DiagnosisResult
 import json
-
 # Load model once
 MODEL_PATH = os.path.join(settings.BASE_DIR, 'models', 'strep_throat_cnn.keras')
 model = load_model(MODEL_PATH)
@@ -85,41 +84,33 @@ def analyze_image(request):
         }, status=200)
     return HttpResponseBadRequest("Invalid request method")
 
-def list_resources(request):
+
+
+@csrf_exempt
+def analysis_history(request):
     """
-    GET /resources/
-    Returns a list of all educational resources.
+    GET /analysis/history/
+    Returns a list of all DiagnosisResult entries for the authenticated user.
     """
     if request.method == 'GET':
-        resources = EducationalResource.objects.all().order_by('-created_at')
+        # Check if user is authenticated
+        if not request.user.is_authenticated:
+            return JsonResponse({"error": "Authentication required"}, status=401)
+        
+        # Fetch user's diagnosis records in descending order by timestamp
+        results = DiagnosisResult.objects.filter(user=request.user).order_by('-timestamp')
+        
+        # Serialize them into a list of dicts
         data = []
-        for r in resources:
+        for r in results:
             data.append({
                 "id": r.id,
-                "title": r.title,
-                "content": r.content,
-                "created_at": r.created_at.isoformat(),
-                "updated_at": r.updated_at.isoformat()
+                "timestamp": r.timestamp.isoformat(),
+                "label": r.label,
+                "probability": r.probability,
+                "image_url": r.image.url if r.image else None
             })
-        return JsonResponse(data, safe=False)
-    return JsonResponse({"error": "Method not allowed"}, status=405)
 
-def resource_detail(request, resource_id):
-    """
-    GET /resources/<id>/
-    Returns details of a single educational resource by ID.
-    """
-    if request.method == 'GET':
-        try:
-            r = EducationalResource.objects.get(pk=resource_id)
-            data = {
-                "id": r.id,
-                "title": r.title,
-                "content": r.content,
-                "created_at": r.created_at.isoformat(),
-                "updated_at": r.updated_at.isoformat()
-            }
-            return JsonResponse(data, status=200)
-        except EducationalResource.DoesNotExist:
-            return HttpResponseNotFound("Resource not found")
+        return JsonResponse(data, safe=False, status=200)
+
     return JsonResponse({"error": "Method not allowed"}, status=405)

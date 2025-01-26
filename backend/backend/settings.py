@@ -14,9 +14,29 @@ SECRET_KEY = 'django-insecure-=*xf9g7cc#xt7fh*#+pubs-c+_t(^^_$4o#(77ntl_+^4mzkb8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.0.5', 'a337-2a06-c701-74df-e00-5495-e6f9-b7d5-a356.ngrok-free.app']
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "10.0.0.5",
+    "7bcf-2a06-c701-74df-e00-5d73-8f54-5cbe-d2ea.ngrok-free.app"
+]
 
+CORS_ALLOW_CREDENTIALS = True
 
+# Ensure proper scheme (http:// or https://)
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1",
+    "http://localhost",
+    "http://10.0.0.5",
+    "https://7bcf-2a06-c701-74df-e00-5d73-8f54-5cbe-d2ea.ngrok-free.app",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1",
+    "http://localhost",
+    "http://10.0.0.5",
+    "https://7bcf-2a06-c701-74df-e00-5d73-8f54-5cbe-d2ea.ngrok-free.app",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -118,3 +138,4 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
