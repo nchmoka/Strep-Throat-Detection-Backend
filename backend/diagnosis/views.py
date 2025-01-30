@@ -10,12 +10,14 @@ from tensorflow.keras.models import load_model
 from django.views.decorators.csrf import csrf_exempt
 from .models import DiagnosisResult
 import json
+
 # Load model once
 MODEL_PATH = os.path.join(settings.BASE_DIR, 'models', 'strep_throat_cnn.keras')
 model = load_model(MODEL_PATH)
 IMG_SIZE = (224, 224)
 
 @csrf_exempt
+# Register a new user
 def register_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -29,20 +31,20 @@ def register_user(request):
     return HttpResponseBadRequest("Invalid request method")
 
 @csrf_exempt
+# Log in an existing user
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
-
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return JsonResponse({"message": "Login successful"}, status=200)
         else:
             return JsonResponse({"error": "Invalid credentials"}, status=400)
-
     return JsonResponse({"error": "Invalid request method"}, status=400)
+
+# Log out the authenticated user
 def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
@@ -50,6 +52,7 @@ def logout_user(request):
     return JsonResponse({"error": "Not logged in"}, status=400)
 
 @csrf_exempt
+# Analyze an uploaded image and return diagnosis results
 def analyze_image(request):
     if request.method == 'POST':
         if not request.user.is_authenticated:
@@ -82,9 +85,8 @@ def analyze_image(request):
         }, status=200)
     return HttpResponseBadRequest("Invalid request method")
 
-
-
 @csrf_exempt
+# Retrieve analysis history for the authenticated user
 def analysis_history(request):
     """
     GET /analysis/history/
