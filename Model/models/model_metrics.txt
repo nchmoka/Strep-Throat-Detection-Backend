@@ -1,16 +1,16 @@
 Model Evaluation Metrics
 =======================
 
-Test Accuracy: 0.8000
-ROC AUC Score: 0.8815
-Average Precision Score: 0.8814
+Test Accuracy: 0.8308
+ROC AUC Score: 0.9280
+Average Precision Score: 0.9365
 
 Classification Report:
               precision    recall  f1-score   support
 
-           0       0.79      0.91      0.85        33
-           1       0.82      0.64      0.72        22
+           0       0.87      0.79      0.83        33
+           1       0.80      0.88      0.84        32
 
-    accuracy                           0.80        55
-   macro avg       0.81      0.77      0.78        55
-weighted avg       0.80      0.80      0.79        55
+    accuracy                           0.83        65
+   macro avg       0.83      0.83      0.83        65
+weighted avg       0.83      0.83      0.83        65

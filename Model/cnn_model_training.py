@@ -201,7 +201,7 @@ def plot_precision_recall_curve(y_true, y_pred_prob, save_dir):
     
     plt.figure(figsize=(8, 6))
     plt.plot(recall, precision, color='darkorange', lw=2, 
-             label=f'Precision-Recall curve (AP = {avg_precision:.2f})')
+            label=f'Precision-Recall curve (AP = {avg_precision:.2f})')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('Recall')
